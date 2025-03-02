@@ -1,5 +1,5 @@
 # tf2mapfix
-A shell script to fix broken community maps on TF2 Linux
+A shell script to fix broken community maps on TF2 Linux.
 If a community map is missing a bunch of textures or other resources, this script will *probably* fix it.
 
 This script will take map files from your TF2 downloads, decompile them with VPKEdit, and put the unpacked files into your TF2 custom directory for you.
