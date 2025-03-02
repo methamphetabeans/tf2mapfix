@@ -81,13 +81,16 @@ select_files(){
 }
 
 copy_files(){
+	if [ ! -d ./mapfiles ]; then
+		mkdir ./mapfiles
+	fi
 	#for each bsp file, decompile and dump in local mapfiles dir, then move to tf2 custom dir. skip altogether if exists in custom dir.
 	for filepath in $@; do
 		filename=$(basename "$filepath")
 		strippedname="${filename%.*}"
 		if [ ! -d "$TF2CUSTOMDIR/$strippedname" ]; then
 			echo "Extracting $filename..."
-			./vpkeditcli -e / "$filepath" -o "./mapfiles"
+			./vpkeditcli -e / "$TF2MAPSDIR/$filepath" -o "./mapfiles"
 			echo "Copying map files to TF2 Custom directory..."
 			cp -r ./mapfiles/"$strippedname" "$TF2CUSTOMDIR"
 			echo -e "${GREEN}$strippedname done. ${NC}\n"
