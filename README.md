@@ -24,8 +24,15 @@ To run this script on specific map files:
 ./tf2mapfix.sh --files      #the script will prompt you for what files you want to use
 ```
 
+To have the script ask you to replace files that already exist in your custom directory:
+```
+./tf2mapfix.sh -a
+./tf2mapfix.sh --ask-replace
+./tf2mapfix.sh -a -f
+```
+
 The script will first look for your TF2 directory in its default location, and if it is not found, will prompt the user to input their installation directory. This location will be saved in a config file for later use.
 
 # Possible Issues
 
-There will likely be some sort of bug from a use case I haven't be able to test. Feel free to contact me @ thebeandev@gmail.com, or try to fix these yourself.
+There will likely be some sort of bug from a use case I haven't be able to test. Feel free to contact me @ thebeandev@gmail.com, or try to fix these yourself and report your findings.
