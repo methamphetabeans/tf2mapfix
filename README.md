@@ -28,7 +28,7 @@ To have the script ask you to replace files that already exist in your custom di
 ```
 ./tf2mapfix.sh -a
 ./tf2mapfix.sh --ask-replace
-./tf2mapfix.sh -a -f
+./tf2mapfix.sh -af
 ```
 
 The script will first look for your TF2 directory in its default location, and if it is not found, will prompt the user to input their installation directory. This location will be saved in a config file for later use.
