@@ -4,6 +4,7 @@
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m'
 TF2DIR="~/.steam/steam/steamapps/common"
 TF2MAPSDIR=""
@@ -103,20 +104,27 @@ copy_files(){
 				echo -e "${GREEN}$strippedname done. ${NC}\n"
 			elif [ -d "$TF2CUSTOMDIR/$strippedname" ]; then
 				if [ "$ASK_REPLACE" = true ]; then
-					echo -e "${YELLOW}$strippedname already found in custom directory. Would you like to replace the files? (y/n)${NC}"
-					read REPLACE
-					case "$REPLACE" in
-					[yY]*)
-						echo "Extracting $filename..."
-						./vpkeditcli -e / "$TF2MAPSDIR/$filename" -o "./mapfiles"
-						echo "Copying map files to TF2 Custom directory..."
-						cp -r ./mapfiles/"$strippedname" "$TF2CUSTOMDIR"
-						echo -e "${GREEN}$strippedname done. ${NC}\n"
-						;;
-					[nN]*)
-						echo -e "Skipping.\n"
-						;;
-					esac
+					while true; do
+						echo -e "${YELLOW}$strippedname already found in custom directory. Would you like to replace the files? (y/n)${NC}"
+						read -s REPLACE
+						case "$REPLACE" in
+						[yY]*)
+							echo "Extracting $filename..."
+							./vpkeditcli -e / "$TF2MAPSDIR/$filename" -o "./mapfiles"
+							echo "Copying map files to TF2 Custom directory..."
+							cp -r ./mapfiles/"$strippedname" "$TF2CUSTOMDIR"
+							echo -e "${GREEN}$strippedname done. ${NC}\n"
+							break
+							;;
+						[nN]*)
+							echo -e "Skipping.\n"
+							break
+							;;
+						*)
+							echo "Invalid input."
+							;;
+						esac
+					done
 				else
 					echo -e "${filename%.*} already present in TF2 custom directory. Skipping.\n"
 				fi
@@ -132,22 +140,26 @@ copy_files(){
 	fi
 }
 
-while getopts "haf" flag; do
-	case "$flag" in
-		h|--help)
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-h|--help)
 			show_help
 			exit 0
 			;;
-		a|--ask-replace)
+		-a|--ask-replace)
 			ASK_REPLACE=true
+			shift
 			;;
-		f|--files)
+		-f|--files)
 			get_directory
 			SELECTED_FILES=$(select_files)
+			shift
 			;;
 		*)
+			echo -e "${RED}Unknown argument: '$1'${NC}"
 			show_help
 			exit 1
+			;;
 	esac
 done
 
